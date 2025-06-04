@@ -36,7 +36,7 @@ export default async function Search(props: SearchProps) {
 
   const facetsPromise = stopwatchWrapper(getFacets(queryProps))
   const statsPromise = stopwatchWrapper(getStats(queryProps))
-  const hitsPromise = stopwatchWrapper(getResults({ ...props, size: size || 24 })) // Increased default size
+  const hitsResult = await stopwatchWrapper(getResults({ ...props, size: size || 24 }))
 
   return (
     <div className="telegram-viewer flex pb-16 lg:pb-0">
@@ -83,7 +83,14 @@ export default async function Search(props: SearchProps) {
         {/* Results with Infinite Scroll */}
         <div className="telegram-scroll-container">
           <Suspense key={`hits`} fallback={<HitsSkeleton />}>
-            <HitsMemo hitsPromise={hitsPromise} query={props.query} />
+            <HitsMemo
+              initialHits={hitsResult.hits}
+              hasMore={hitsResult.hasMore}
+              executionTime={hitsResult.executionTime}
+              totalHits={hitsResult.totalHits}
+              query={props.query}
+              searchParams={props}
+            />
           </Suspense>
         </div>
       </div>

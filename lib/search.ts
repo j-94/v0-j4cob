@@ -55,22 +55,203 @@ export type Facet = {
   values: FacetValue[]
 }
 
-// Load the actual AI tools dataset
-async function loadAIToolsData(): Promise<Hit[]> {
-  try {
-    const response = await fetch(
-      "https://blobs.vusercontent.net/blob/ai_tools_directory_last_1000-3DCwnJTeqQCH8ElGzoWftJ0zkzbKP8.json",
-    )
-    if (!response.ok) {
-      throw new Error("Failed to fetch AI tools data")
+// Use the local dataset as fallback
+const fallbackData: Hit[] = [
+  {
+    id: 1,
+    name: "ChatGPT",
+    description: "Advanced conversational AI assistant powered by OpenAI's GPT models.",
+    short_description: "AI-powered conversational assistant for various tasks.",
+    creation_date: "2022-11-30",
+    creation_year: 2022,
+    last_updated: "2024-01-01",
+    categories: ["Chat & Text", "AI Assistant"],
+    image_url: null,
+    author: "OpenAI",
+    source: "https://chat.openai.com",
+    popularity: 50000,
+    license: "Proprietary",
+    repository: null,
+    raw_metadata: {
+      stars: 0,
+      forks: 0,
+      followers: 1000000,
+    },
+    key_features: ["Natural conversation", "Code generation", "Text analysis", "Creative writing"],
+    primary_use_cases: ["Customer support", "Content creation", "Programming help"],
+    refined_tags: ["ai", "chat", "gpt", "openai"],
+    summary:
+      "ChatGPT is an advanced AI assistant that can help with a wide variety of tasks through natural conversation.",
+    target_audience: ["Professionals", "Students", "Developers"],
+    market_position: "Established",
+    tool_type: "Chat AI",
+    pricing_category: "Freemium",
+    resolve_group: 1,
+    _counts_prereduce_merge_duplicate_tool_entries: 1,
+  },
+  {
+    id: 2,
+    name: "DALL-E 3",
+    description: "Advanced AI image generation model that creates detailed images from text descriptions.",
+    short_description: "AI image generator from text prompts.",
+    creation_date: "2023-10-01",
+    creation_year: 2023,
+    last_updated: "2024-01-01",
+    categories: ["Image Generation", "Art"],
+    image_url: null,
+    author: "OpenAI",
+    source: "https://openai.com/dall-e-3",
+    popularity: 35000,
+    license: "Proprietary",
+    repository: null,
+    raw_metadata: {
+      stars: 0,
+      forks: 0,
+      followers: 500000,
+    },
+    key_features: ["Text-to-image generation", "High resolution output", "Style control", "Safety filters"],
+    primary_use_cases: ["Digital art", "Marketing materials", "Concept visualization"],
+    refined_tags: ["ai", "image", "generation", "dall-e"],
+    summary: "DALL-E 3 generates high-quality images from text descriptions with improved accuracy and detail.",
+    target_audience: ["Artists", "Designers", "Marketers"],
+    market_position: "Established",
+    tool_type: "Image AI",
+    pricing_category: "Paid",
+    resolve_group: 2,
+    _counts_prereduce_merge_duplicate_tool_entries: 1,
+  },
+  {
+    id: 3,
+    name: "GitHub Copilot",
+    description: "AI-powered code completion and programming assistant integrated into development environments.",
+    short_description: "AI coding assistant for developers.",
+    creation_date: "2021-06-29",
+    creation_year: 2021,
+    last_updated: "2024-01-01",
+    categories: ["Code Assistant", "Development"],
+    image_url: null,
+    author: "GitHub",
+    source: "https://github.com/features/copilot",
+    popularity: 40000,
+    license: "Proprietary",
+    repository: null,
+    raw_metadata: {
+      stars: 0,
+      forks: 0,
+      followers: 750000,
+    },
+    key_features: ["Code completion", "Function generation", "Comment-to-code", "Multi-language support"],
+    primary_use_cases: ["Software development", "Code review", "Learning programming"],
+    refined_tags: ["ai", "code", "programming", "github"],
+    summary: "GitHub Copilot helps developers write code faster with AI-powered suggestions and completions.",
+    target_audience: ["Developers", "Engineers", "Students"],
+    market_position: "Established",
+    tool_type: "Code AI",
+    pricing_category: "Paid",
+    resolve_group: 3,
+    _counts_prereduce_merge_duplicate_tool_entries: 1,
+  },
+  {
+    id: 4,
+    name: "Midjourney",
+    description: "AI art generator that creates stunning images from text prompts through Discord bot interface.",
+    short_description: "Discord-based AI art generation tool.",
+    creation_date: "2022-07-12",
+    creation_year: 2022,
+    last_updated: "2024-01-01",
+    categories: ["Image Generation", "Art"],
+    image_url: null,
+    author: "Midjourney Inc.",
+    source: "https://midjourney.com",
+    popularity: 30000,
+    license: "Proprietary",
+    repository: null,
+    raw_metadata: {
+      stars: 0,
+      forks: 0,
+      followers: 400000,
+    },
+    key_features: ["Artistic image generation", "Style variations", "Upscaling", "Community gallery"],
+    primary_use_cases: ["Digital art", "Concept art", "Creative projects"],
+    refined_tags: ["ai", "art", "midjourney", "discord"],
+    summary:
+      "Midjourney creates beautiful, artistic images from text descriptions with a focus on creative and stylistic output.",
+    target_audience: ["Artists", "Designers", "Creatives"],
+    market_position: "Established",
+    tool_type: "Image AI",
+    pricing_category: "Paid",
+    resolve_group: 4,
+    _counts_prereduce_merge_duplicate_tool_entries: 1,
+  },
+  {
+    id: 5,
+    name: "Stable Diffusion",
+    description: "Open-source text-to-image AI model that can be run locally or through various online services.",
+    short_description: "Open-source AI image generation model.",
+    creation_date: "2022-08-22",
+    creation_year: 2022,
+    last_updated: "2024-01-01",
+    categories: ["Image Generation", "Open Source"],
+    image_url: null,
+    author: "Stability AI",
+    source: "https://stability.ai/stable-diffusion",
+    popularity: 25000,
+    license: "Open Source",
+    repository: "https://github.com/Stability-AI/stablediffusion",
+    raw_metadata: {
+      stars: 35000,
+      forks: 5000,
+      followers: 100000,
+    },
+    key_features: ["Local deployment", "Customizable models", "API access", "Community extensions"],
+    primary_use_cases: ["Research", "Custom applications", "Art generation"],
+    refined_tags: ["ai", "stable-diffusion", "open-source", "image"],
+    summary:
+      "Stable Diffusion is an open-source AI model for generating images from text, offering flexibility and customization.",
+    target_audience: ["Developers", "Researchers", "Artists"],
+    market_position: "Established",
+    tool_type: "Image AI",
+    pricing_category: "Free",
+    resolve_group: 5,
+    _counts_prereduce_merge_duplicate_tool_entries: 1,
+  },
+]
+
+// Load the AI tools dataset with proper caching and error handling
+const loadAIToolsData = unstable_cache(
+  async (): Promise<Hit[]> => {
+    try {
+      const response = await fetch(
+        "https://blobs.vusercontent.net/blob/ai_tools_directory_last_1000-3DCwnJTeqQCH8ElGzoWftJ0zkzbKP8.json",
+        {
+          next: { revalidate: 3600 }, // Cache for 1 hour
+        },
+      )
+
+      if (!response.ok) {
+        console.warn("Failed to fetch AI tools data from blob, using fallback data")
+        return fallbackData
+      }
+
+      const data = await response.json()
+
+      // Validate the data structure
+      if (!Array.isArray(data) || data.length === 0) {
+        console.warn("Invalid data structure from blob, using fallback data")
+        return fallbackData
+      }
+
+      return data
+    } catch (error) {
+      console.warn("Error loading AI tools data from blob, using fallback data:", error)
+      return fallbackData
     }
-    const data = await response.json()
-    return data
-  } catch (error) {
-    console.error("Error loading AI tools data:", error)
-    return []
-  }
-}
+  },
+  ["ai-tools-data"],
+  {
+    revalidate: 3600, // Cache for 1 hour
+  },
+)
 
 // Apply filters to the dataset
 function applyFilters(tools: Hit[], props: Omit<SearchProps, "sort" | "page" | "size">): Hit[] {
@@ -190,7 +371,7 @@ export const search = unstable_cache(
 
     // Apply pagination for infinite scroll
     const page = props.page || 1
-    const size = props.size || 24 // Increased default size for infinite scroll
+    const size = props.size || 24
     const startIndex = (page - 1) * size
     const endIndex = startIndex + size
     const paginatedTools = sortedTools.slice(startIndex, endIndex)
