@@ -1,0 +1,13 @@
+{
+  "name": "claude-code-sandbox",
+  "build": { "dockerfile": "Dockerfile" },
+  "features": {},
+  "remoteUser": "vscode",
+  "postCreateCommand": "claude --version || true",
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": []
+    }
+  }
+}
