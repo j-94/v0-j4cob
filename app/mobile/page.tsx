@@ -1,14 +1,12 @@
-"use client"
-
 import { Suspense } from "react"
 import MobileDiscoveryInterface from "@/components/mobile/MobileDiscoveryInterface"
 import { getResults, getFilterOptions } from "@/lib/search"
 import type { SearchProps } from "@/lib/search"
 
-export const experimental_ppr = true
+export const dynamic = "force-dynamic"
 
 type PageProps = {
-  searchParams: Promise<SearchProps>
+  searchParams: SearchProps
 }
 
 function MobileLoadingSkeleton() {
@@ -46,8 +44,7 @@ function MobileLoadingSkeleton() {
 
 async function MobilePageContent({ searchParams }: PageProps) {
   try {
-    const resolvedSearchParams = await searchParams
-    const { query, categories, brand, type, price_range, rating, sort, page, size } = resolvedSearchParams
+    const { query, categories, brand, type, price_range, rating, sort, page, size } = searchParams
 
     // Fetch initial data on the server with proper error handling
     const searchProps = {
