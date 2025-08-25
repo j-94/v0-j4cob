@@ -28,3 +28,17 @@ Continue building your app on:
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
+
+## Hugging Face Inference Provider
+
+The project now includes a helper for calling Hugging Face's OpenAI-compatible Inference API. Set the `HF_TOKEN` environment variable and use the `streamHuggingFace` function from `lib/huggingface.ts` to generate completions:
+
+```ts
+import { streamHuggingFace } from "@/lib/huggingface";
+
+const output = await streamHuggingFace([
+  { role: "user", content: "What is the capital of France?" },
+]);
+```
+
+This utility streams the response and returns the full text once complete.
