@@ -1,26 +1,15 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { getResults } from "@/lib/search"
+import { NextResponse } from "next/server";
+import { searchItems } from "@/lib/providers/items";
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
+export async function POST(req: Request) {
+  const { q } = await req.json();
+  const items = await searchItems(q ?? "");
+  return NextResponse.json(items);
+}
 
-  const props = {
-    query: searchParams.get("query") || undefined,
-    categories: searchParams.getAll("categories"),
-    brand: searchParams.getAll("brand"),
-    type: searchParams.getAll("type"),
-    price_range: searchParams.getAll("price_range"),
-    rating: searchParams.getAll("rating").map(Number),
-    sort: searchParams.get("sort") || undefined,
-    page: Number(searchParams.get("page")) || 1,
-    size: Number(searchParams.get("size")) || 24,
-  }
-
-  try {
-    const results = await getResults(props)
-    return NextResponse.json(results)
-  } catch (error) {
-    console.error("Search API error:", error)
-    return NextResponse.json({ error: "Failed to fetch search results" }, { status: 500 })
-  }
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const q = searchParams.get("q") || "";
+  const items = await searchItems(q);
+  return NextResponse.json(items);
 }

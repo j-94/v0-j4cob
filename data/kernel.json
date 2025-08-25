@@ -1,0 +1,6 @@
+{
+  "tick": 1,
+  "goal": "Ship timeline",
+  "state": {"alpha": 0.3, "beta": 0.4, "gamma": 0.3},
+  "budget": {"seconds_total": 3600, "seconds_left": 1800}
+}
