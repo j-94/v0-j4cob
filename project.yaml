@@ -1,0 +1,48 @@
+# Service catalog for compound personal agency
+name: "agent-executor"
+version: "1.0.0"
+
+# Core intent: signal density + measurability
+intent:
+  north_star: "compound personal agency by increasing signal density and measurability"
+  strategy: "signal flywheel + eval harness first, then thin SWE agent"
+
+# Architecture constraints
+architecture:
+  pr_first: true
+  monorepo: true
+  policy_first: true
+  minimal_ux: true
+
+# Agent configuration
+agent:
+  modes:
+    safe:
+      timeout_ms: 15000
+      max_tokens: 3000
+      budget_ms: 120000
+      allow_cmds: ["git", "node", "pnpm"]
+    fast:
+      timeout_ms: 8000
+      max_tokens: 1500
+      budget_ms: 60000
+      allow_cmds: ["git", "node", "pnpm", "rg"]
+    cheap:
+      timeout_ms: 12000
+      max_tokens: 2000
+      budget_ms: 90000
+      allow_cmds: ["git", "node"]
+
+# Signal flywheel configuration
+signal:
+  recall_threshold: 0.7
+  routing_confidence: 0.8
+  signal_decay: 0.95
+  flywheel_iterations: 10
+
+# Eval harness
+evals:
+  cost_cap_usd: 5.0
+  success_threshold: 0.85
+  gamma_gate: 0.9
+  provenance_required: true

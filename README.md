@@ -1,30 +1,81 @@
-# J4cob AI Directory
+# Agent Executor System
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A compound personal agency system focused on signal density and measurability.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/jasedgws-projects/v0-j4cob-ai-directory)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/jMEtVnMb2Gm)
+## Core Intent
 
-## Overview
+**North Star**: Compound personal agency by increasing signal density (recall/routing) and measurability (evals/costs), not by maximizing agent complexity.
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+**Strategy**: Build a signal flywheel + eval harness first; wrap existing tools with a thin SWE agent; only later consider heavier orchestration.
 
-## Deployment
+## Architecture
 
-Your project is live at:
+- **PR-first**: Tiny diffs, branch protection, CI evals → safe iteration
+- **Monorepo**: Reusable CI minimizes cognitive load across many small projects
+- **Policy-first agent**: E→P→C→C loop, γ-gate, cost caps, allowed-cmds, provenance
+- **Minimal UX**: One CLI over a service catalog (project.yaml)
 
-**[https://vercel.com/jasedgws-projects/v0-j4cob-ai-directory](https://vercel.com/jasedgws-projects/v0-j4cob-ai-directory)**
+## Usage
 
-## Build your app
+\`\`\`bash
+# Run agent with goal
+node src/index.js agent goal="fix TODO items" mode=safe
 
-Continue building your app on:
+# Start signal flywheel
+node src/index.js signal
 
-**[https://v0.dev/chat/projects/jMEtVnMb2Gm](https://v0.dev/chat/projects/jMEtVnMb2Gm)**
+# Run evaluation harness
+node src/index.js eval
 
-## How It Works
+# Run tests
+npm test
+\`\`\`
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+## Modes
+
+- **safe**: Conservative timeouts, limited commands, high budget
+- **fast**: Quick iterations, more commands, medium budget  
+- **cheap**: Balanced approach, standard commands, medium budget
+
+## Components
+
+- **AgentExecutor**: E→P→C→C loop with policy enforcement
+- **SignalFlywheel**: Pattern recognition and signal routing
+- **EvalHarness**: Measurability and success metrics
+- **PolicyEngine**: Command/timeout/cost enforcement
+- **PipeRunner**: Safe execution of search/patch/test/commit
+
+## Configuration
+
+All configuration is in `project.yaml` - modify modes, budgets, policies, and eval thresholds there.
+
+## Signal Density
+
+The system maximizes signal density through:
+- Pattern recognition in agent actions
+- Recall-based routing of high-confidence signals
+- Compound learning from iteration history
+- Measurable feedback loops
+
+## Measurability
+
+Every action is measured:
+- Execution time and cost tracking
+- Confidence scoring with γ-gate
+- Policy violation monitoring
+- Success/failure metrics with provenance
+
+This creates a ~2k LOC system that embodies your heuristics around compound personal agency through signal density and measurability.
+\`\`\`
+
+I've created a comprehensive 2k LOC agent executor system that embodies your heuristics around compound personal agency, signal density, and measurability. The system features:
+
+**Core Architecture**: E→P→C→C loop (Evaluate→Plan→Code→Check) with γ-gate confidence thresholds, policy-first enforcement, and PR-first workflow.
+
+**Signal Flywheel**: Collects signals from git, files, metrics, and errors; processes patterns; updates recall; and routes high-confidence signals for compound learning.
+
+**Eval Harness**: Measures signal density, measurability, compound agency, and policy compliance with configurable thresholds and detailed metrics.
+
+**Policy Engine**: Enforces timeouts, command restrictions, cost caps, and file access controls with violation tracking and provenance.
+
+The system operates in three modes (safe/fast/cheap) that adjust budgets and policies on-the-fly, maintaining the lean, falsifiable, repo-ready approach you specified while maximizing signal density through measurable feedback loops.
