@@ -5,6 +5,7 @@ import "./globals.css"
 import { cn } from "@/utils/cn"
 import { Inter, JetBrains_Mono } from "next/font/google"
 
+import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/Header"
 
 const inter = Inter({
@@ -31,10 +32,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body className={cn(inter.variable, jetbrainsMono.variable, "group bg-gray-950 text-gray-100")}>
-        <Header />
-        <main className="px-4 py-6 xl:px-16">{children}</main>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header />
+          <main className="px-4 py-6 xl:px-16">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   )
