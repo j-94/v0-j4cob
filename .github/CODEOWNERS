@@ -1,0 +1,3 @@
+**/*.sql           @data-team
+infra/**           @platform
+security/**        @sec-leads
