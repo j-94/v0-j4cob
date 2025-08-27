@@ -1,0 +1,19 @@
+name: verify-grid
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR body for VERIFY GRID + Rollback
+        uses: actions-ecosystem/action-regex-match@v2
+        id: check
+        with:
+          text: ${{ github.event.pull_request.body }}
+          regex: '(?s)## VERIFY GRID.*Rollback:'
+      - name: Fail if grid missing
+        if: steps.check.outputs.match != 'true'
+        run: |
+          echo "VERIFY GRID or Rollback section is missing."
+          exit 1
