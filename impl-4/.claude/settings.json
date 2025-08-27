@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run test:)",
+      "Bash(git diff:)",
+      "Read(/)"
+    ],
+    "ask": [
+      "Bash(git push:)",
+      "Write(/)"
+    ],
+    "deny": [
+      "Bash(curl:)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ]
+  }
+}
