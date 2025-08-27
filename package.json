@@ -1,0 +1,42 @@
+{
+  "name": "nstar",
+  "version": "1.0.0",
+  "description": "Streaming kernel loop system with policy enforcement and context management",
+  "main": "bin/nstar.mjs",
+  "type": "module",
+  "bin": {
+    "nstar": "./bin/nstar.mjs",
+    "nstar-server": "./bin/nstar-server.mjs",
+    "nstar-client": "./bin/nstar-client.mjs"
+  },
+  "scripts": {
+    "start": "node bin/nstar-server.mjs",
+    "test": "node test-streaming.mjs",
+    "dev": "PORT=8080 node bin/nstar-server.mjs"
+  },
+  "keywords": [
+    "ai",
+    "kernel",
+    "streaming",
+    "policy",
+    "context",
+    "automation",
+    "development"
+  ],
+  "author": "nstar contributors",
+  "license": "MIT",
+  "dependencies": {
+    "eventsource": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/nstar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/nstar/issues"
+  },
+  "homepage": "https://github.com/yourusername/nstar#readme"
+}

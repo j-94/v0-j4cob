@@ -1,0 +1,13 @@
+{
+  "weights": {
+    "tests_pass": 0.4,
+    "retrieval_cited": 0.25,
+    "cost_ok": 0.2,
+    "diff_tiny": 0.15
+  },
+  "thresholds": {
+    "safe": 0.6,
+    "fast": 0.5,
+    "cheap": 0.4
+  }
+}
