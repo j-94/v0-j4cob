@@ -47,7 +47,7 @@ npm test
 
 ## Configuration
 
-All configuration is in `project.yaml` - modify modes, budgets, policies, and eval thresholds there.
+All configuration is in `project.yaml` - modify modes, budgets, policies, LLM environments, and eval thresholds there.
 
 ## Signal Density
 
