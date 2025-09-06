@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import chalk from "chalk"
+import { loadConfig } from "../config/loader.js"
 
 console.log(chalk.blue("🧪 Running tests..."))
 
@@ -9,6 +10,7 @@ const tests = [
   { name: "Signal Flywheel", fn: testSignalFlywheel },
   { name: "Eval Harness", fn: testEvalHarness },
   { name: "Policy Engine", fn: testPolicyEngine },
+  { name: "LLM Environments", fn: testLLMEnvironments },
 ]
 
 let passed = 0
@@ -46,4 +48,11 @@ async function testEvalHarness() {
 async function testPolicyEngine() {
   if (Math.random() > 0.1) return
   throw new Error("Mock failure")
+}
+
+async function testLLMEnvironments() {
+  const config = await loadConfig()
+  if (!config.llm?.environments?.evaluation || !config.llm?.environments?.planning) {
+    throw new Error("Missing LLM environment configs")
+  }
 }

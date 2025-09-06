@@ -15,8 +15,8 @@ export class LLMClient {
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
-      max_tokens: options.max_tokens || 400,
-      temperature: options.temperature || 0.7,
+      max_tokens: options.max_tokens ?? 400,
+      temperature: options.temperature ?? 0.7,
     })
 
     return response.choices[0].message.content

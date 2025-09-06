@@ -3,6 +3,7 @@ import { SignalRouter } from "../signal/router.js"
 import { EvalGate } from "../eval/gate.js"
 import { PipeRunner } from "../pipe/runner.js"
 import { LLMClient } from "../llm/client.js"
+import { renderTemplate } from "../config/template.js"
 import chalk from "chalk"
 
 export class AgentExecutor {
@@ -79,17 +80,14 @@ export class AgentExecutor {
   async evaluate() {
     console.log(chalk.cyan("📊 Evaluating current state..."))
 
-    const systemPrompt = `You are evaluating the current state of a codebase for the goal: "${this.context.vars.goal}".
-    
-    Return JSON with:
-    - current_state: brief description
-    - progress: 0-1 score
-    - blockers: array of issues
-    - next_action: suggested action type
-    
-    Keep response under 200 tokens.`
+    const env = this.config.llm?.environments?.evaluation || {}
+    const systemPrompt = renderTemplate(env.system_prompt || "", this.context.vars)
 
-    const evaluation = await this.llm.complete(systemPrompt, JSON.stringify(this.context.vars))
+    const evaluation = await this.llm.complete(
+      systemPrompt,
+      JSON.stringify(this.context.vars),
+      env
+    )
 
     try {
       return JSON.parse(evaluation)
@@ -101,17 +99,10 @@ export class AgentExecutor {
   async plan(evaluation) {
     console.log(chalk.cyan("🧠 Planning next action..."))
 
-    const systemPrompt = `Based on evaluation, create a plan for: "${this.context.vars.goal}".
-    
-    Return JSON with:
-    - action: "search" | "patch" | "test" | "commit" | "stop"
-    - reasoning: why this action
-    - args: action-specific arguments
-    - confidence: 0-1 score
-    
-    Mode: ${this.context.vars.mode}. Keep response under 300 tokens.`
+    const env = this.config.llm?.environments?.planning || {}
+    const systemPrompt = renderTemplate(env.system_prompt || "", this.context.vars)
 
-    const plan = await this.llm.complete(systemPrompt, JSON.stringify(evaluation))
+    const plan = await this.llm.complete(systemPrompt, JSON.stringify(evaluation), env)
 
     try {
       return JSON.parse(plan)
