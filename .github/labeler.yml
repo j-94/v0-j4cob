@@ -1,0 +1,4 @@
+frontend: ["apps/web/**", "**/*.tsx", "**/*.css"]
+backend:  ["apps/api/**", "src/**/*.py", "src/**/*.go"]
+tests:    ["**/*test.*", "**/__tests__/**"]
+docs:     ["**/*.md", "docs/**"]
