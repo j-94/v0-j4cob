@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Knowledge Base Catalog Item",
+  "type": "object",
+  "required": ["id", "title", "artifact_type"],
+  "properties": {
+    "id": {"type": "string"},
+    "title": {"type": "string"},
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "link", "code-snippet", "repo", "prompt", "note",
+        "dataset", "paper", "tool", "decision", "experiment",
+        "pattern", "checklist", "task"
+      ]
+    },
+    "capability": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "rag", "agents", "evals", "retrieval", "orchestration",
+          "vision", "audio", "UI", "devops", "growth", "data",
+          "security", "legal", "monetization"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "task": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "scaffold_microservice", "add_eval", "scrape_and_clean",
+          "trend_scan", "write_spec", "set_up_ci", "benchmark_model",
+          "deploy_vercel", "make_dashboard", "growth_tear_down",
+          "UX_wireframe"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "stack": {
+      "type": "object",
+      "properties": {
+        "lang": {"type": "string"},
+        "runtime": {"type": "string"},
+        "cloud": {"type": "string"},
+        "db": {"type": "string"},
+        "vec": {"type": "string"},
+        "llm": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "maturity": {
+      "type": "string",
+      "enum": ["idea", "draft", "tried", "tested", "productionized"]
+    },
+    "last_verified_at": {"type": "string", "format": "date"},
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "p_conf": {"type": "number", "minimum": 0, "maximum": 1},
+        "benchmarks": {"type": "array", "items": {"type": "string"}},
+        "passes": {"type": "integer", "minimum": 0},
+        "perf_notes": {"type": "string"},
+        "cost_est": {"type": "string"},
+        "failure_modes": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "operability": {
+      "type": "object",
+      "properties": {
+        "how_to_run": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "deps": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "license": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "edges": {
+      "type": "object",
+      "properties": {
+        "depends_on": {"type": "array", "items": {"type": "string"}},
+        "supersedes": {"type": "array", "items": {"type": "string"}},
+        "supports": {"type": "array", "items": {"type": "string"}},
+        "refutes": {"type": "array", "items": {"type": "string"}},
+        "similar_to": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "url": {"type": "string", "format": "uri"},
+        "author": {"type": "string"},
+        "added_at": {"type": "string", "format": "date"}
+      },
+      "additionalProperties": false
+    },
+    "summary": {"type": "string"},
+    "tags": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
