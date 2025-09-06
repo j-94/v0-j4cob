@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "j-meta": {
+      "entry": ".claude/profiles/j-meta/policy.meta.dsl"
+    }
+  }
+}
