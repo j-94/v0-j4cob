@@ -108,3 +108,6 @@ Thumbs.db
 # Test files (keep examples but ignore generated)
 test-*.js
 test-*.mjs
+
+ops/INVENTORY.json
+ops/HISTORY_INDEX.jsonl
