@@ -1,0 +1,9 @@
+{
+  "ignore:ops/INVENTORY.json": { "fixer": "ensureGitignore", "autoApply": true },
+  "ignore:ops/HISTORY_INDEX.jsonl": { "fixer": "ensureGitignore", "autoApply": true },
+  "rule:gamma_policy": { "fixer": "seedPolicy", "autoApply": true },
+  "rule:cost_policy": { "fixer": "seedPolicy", "autoApply": true },
+  "rule:ci_eval_gate": { "fixer": "addCiEvalGate", "autoApply": false },
+  "rule:ui_catchall": { "fixer": "addUICatchall", "autoApply": false },
+  "req:.gitignore": { "fixer": "ensureGitignore", "autoApply": true }
+}

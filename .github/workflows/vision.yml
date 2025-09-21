@@ -1,0 +1,15 @@
+name: vision-check
+on: [push, pull_request, workflow_dispatch, schedule]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: node tools/vision-check.mjs
+      - name: auto-auditor (PR intents)
+        run: node apps/auditor/daemon.mjs --once || true
+      - name: upload report
+        uses: actions/upload-artifact@v4
+        with: { name: vision-report, path: ops/VISION_REPORT.json }

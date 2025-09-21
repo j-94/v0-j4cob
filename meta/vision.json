@@ -1,0 +1,27 @@
+{
+  "version": "0.1",
+  "north_star": "Signal density + measurability > complexity.",
+  "required_paths": [
+    "apps/server/server.js",
+    "apps/public/index.html",
+    "apps/public/ui.js",
+    "policy/gamma.json",
+    "policy/cost.json",
+    "ops/TRACE.jsonl",
+    { "anyOf": ["bin/nstar.mjs", "apps/agent/loop.js"] }
+  ],
+  "recommended_paths": [
+    ".github/workflows/vision.yml",
+    "ops/PR_MAP.json",
+    "tools/trace-summary.mjs"
+  ],
+  "must_ignore": ["ops/INVENTORY.json", "ops/HISTORY_INDEX.jsonl"],
+  "rules": {
+    "ledger_single_source": true,
+    "ui_has_catchall_renderer": true,
+    "ci_eval_gate_present": true,
+    "repo_size_kloc_max": 5
+  },
+  "weights": { "hard": 8, "medium": 3, "soft": 1 },
+  "thresholds": { "pass": 85, "warn": 70 }
+}
